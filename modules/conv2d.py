@@ -12,12 +12,15 @@ class Conv2D(Layer):
         self.stride = stride
         self.padding = padding
         
-        # MODIFICAR: Añadir nuevo if-else para otros algoritmos de convolución
+        # --- INICIO BLOQUE GENERADO CON IA ---
         if conv_algo == 0:
             self.mode = 'direct' 
+        elif conv_algo == 1:
+            self.mode = 'im2col'
         else:
-            print(f"Algoritmo {conv_algo} no soportado aún")
+            print(f"Algoritmo {conv_algo} no soportado aún, usando direct por defecto")
             self.mode = 'direct' 
+        # --- FIN BLOQUE GENERADO CON IA ---
 
         fan_in = in_channels * kernel_size * kernel_size
         fan_out = out_channels * kernel_size * kernel_size
@@ -38,7 +41,7 @@ class Conv2D(Layer):
         self.biases = np.zeros(out_channels, dtype=np.float32)
 
         # PISTA: Y estos valores para qué las podemos utilizar?
-        # Si los usas, no olvides utilizar el modelo explicado en teoría que maximiza la caché
+        # Si los usas, no olvides utilizar el modelo explicado en teoría que maximiza la caché
         self.mc = 480
         self.nc = 3072
         self.kc = 384
@@ -57,11 +60,14 @@ class Conv2D(Layer):
     
     def forward(self, input, training=True):
         self.input = input
-        # PISTA: Usar estos if-else si implementas más algoritmos de convolución
+        # --- INICIO BLOQUE GENERADO CON IA ---
         if self.mode == 'direct':
             return self._forward_direct(input)
+        elif self.mode == 'im2col':
+            return self._forward_im2col(input)
         else:
-            raise ValueError("Mode must be 'direct")
+            raise ValueError("Mode must be 'direct' or 'im2col'")
+        # --- FIN BLOQUE GENERADO CON IA ---
 
     def backward(self, grad_output, learning_rate):
         # ESTO NO ES NECESARIO YA QUE NO VAIS A HACER BACKPROPAGATION
@@ -136,4 +142,40 @@ class Conv2D(Layer):
 
         return grad_input
 
-    # PISTA: Se te ocurren otros algoritmos de convolución?
+    # --- INICIO BLOQUE GENERADO CON IA ---
+    def _forward_im2col(self, input):
+        batch_size, _, in_h, in_w = input.shape
+        k_h, k_w = self.kernel_size, self.kernel_size
+
+        if self.padding > 0:
+            input_pad = np.pad(input,
+                               ((0, 0), (0, 0), (self.padding, self.padding), (self.padding, self.padding)),
+                               mode='constant').astype(np.float32)
+        else:
+            input_pad = input
+
+        out_h = (in_h + 2 * self.padding - k_h) // self.stride + 1
+        out_w = (in_w + 2 * self.padding - k_w) // self.stride + 1
+
+        # Aplanar los filtros (kernels)
+        kernels_2d = self.kernels.reshape(self.out_channels, -1)
+
+        output = np.zeros((batch_size, self.out_channels, out_h, out_w), dtype=np.float32)
+
+        # Extraer parches y multiplicar (GEMM)
+        for b in range(batch_size):
+            col = np.zeros((self.in_channels * k_h * k_w, out_h * out_w), dtype=np.float32)
+            col_idx = 0
+            
+            for i in range(out_h):
+                for j in range(out_w):
+                    region = input_pad[b, :, i*self.stride : i*self.stride+k_h, j*self.stride : j*self.stride+k_w]
+                    col[:, col_idx] = region.reshape(-1)
+                    col_idx += 1
+
+            out_b = np.dot(kernels_2d, col)
+            out_b += self.biases.reshape(-1, 1)
+            output[b, :, :, :] = out_b.reshape(self.out_channels, out_h, out_w)
+
+        return output
+    # --- FIN BLOQUE GENERADO CON IA ---
