@@ -1,11 +1,17 @@
 from modules.layer import Layer
 from modules.utils import *
-#from cython_modules.im2col import im2col_forward_cython
 
 import numpy as np
 
+# --- INICIO BLOQUE GENERADO CON IA ---
+try:
+    from cython_modules.im2col import im2col_forward_cython
+except ImportError:
+    print("Aviso: No se pudo importar el módulo Cython. ¿Has compilado con setup.py?")
+# --- FIN BLOQUE GENERADO CON IA ---
+
 class Conv2D(Layer):
-    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, conv_algo=1, weight_init="he"):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, conv_algo=3, weight_init="he"):
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.kernel_size = kernel_size
@@ -17,9 +23,11 @@ class Conv2D(Layer):
             self.mode = 'direct' 
         elif conv_algo == 1:
             self.mode = 'im2col'
+        elif conv_algo == 3:
+            self.mode = 'cython_im2col'
         else:
-            print(f"Algoritmo {conv_algo} no soportado aún, usando direct por defecto")
-            self.mode = 'direct' 
+            print(f"Algoritmo {conv_algo} no soportado aún, usando im2col por defecto")
+            self.mode = 'im2col' 
         # --- FIN BLOQUE GENERADO CON IA ---
 
         fan_in = in_channels * kernel_size * kernel_size
@@ -65,8 +73,10 @@ class Conv2D(Layer):
             return self._forward_direct(input)
         elif self.mode == 'im2col':
             return self._forward_im2col(input)
+        elif self.mode == 'cython_im2col':
+            return self._forward_cython_im2col(input)
         else:
-            raise ValueError("Mode must be 'direct' or 'im2col'")
+            raise ValueError("Mode must be 'direct', 'im2col' or 'cython_im2col'")
         # --- FIN BLOQUE GENERADO CON IA ---
 
     def backward(self, grad_output, learning_rate):
@@ -174,6 +184,34 @@ class Conv2D(Layer):
                     col_idx += 1
 
             out_b = np.dot(kernels_2d, col)
+            out_b += self.biases.reshape(-1, 1)
+            output[b, :, :, :] = out_b.reshape(self.out_channels, out_h, out_w)
+
+        return output
+
+    def _forward_cython_im2col(self, input):
+        batch_size, _, in_h, in_w = input.shape
+        k_h, k_w = self.kernel_size, self.kernel_size
+
+        if self.padding > 0:
+            input_pad = np.pad(input,
+                               ((0, 0), (0, 0), (self.padding, self.padding), (self.padding, self.padding)),
+                               mode='constant').astype(np.float32)
+        else:
+            input_pad = input
+
+        out_h = (in_h + 2 * self.padding - k_h) // self.stride + 1
+        out_w = (in_w + 2 * self.padding - k_w) // self.stride + 1
+
+        kernels_2d = self.kernels.reshape(self.out_channels, -1)
+        
+        # Llamada a la función en C
+        cols = im2col_forward_cython(input_pad, self.kernel_size, self.stride, out_h, out_w)
+        
+        output = np.zeros((batch_size, self.out_channels, out_h, out_w), dtype=np.float32)
+        
+        for b in range(batch_size):
+            out_b = np.dot(kernels_2d, cols[b])
             out_b += self.biases.reshape(-1, 1)
             output[b, :, :, :] = out_b.reshape(self.out_channels, out_h, out_w)
 

@@ -1,0 +1,11 @@
+# Ignorar datos pesados
+data/
+cython_modules/data/
+
+# Ignorar binarios y cachés de Python/Cython (muy buena práctica)
+__pycache__/
+*.so
+*.pyd
+*.obj
+*.lib
+*.exp
