@@ -5,7 +5,7 @@ from modules.utils import *
 import numpy as np
 
 class Conv2D(Layer):
-    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, conv_algo=0, weight_init="he"):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, conv_algo=1, weight_init="he"):
         self.in_channels = in_channels
         self.out_channels = out_channels
         self.kernel_size = kernel_size

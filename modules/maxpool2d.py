@@ -16,37 +16,61 @@ class MaxPool2D(Layer):
         out_h = (H - KH) // SH + 1
         out_w = (W - KW) // SW + 1
 
-        self.max_indices = np.zeros((B, C, out_h, out_w, 2), dtype=int)
-        output = np.zeros((B, C, out_h, out_w),dtype=input.dtype)
-
-        for b in range(B):
-            for c in range(C):
-                for i in range(out_h):
-                    for j in range(out_w):
-                        h_start = i * SH
-                        h_end = h_start + KH
-                        w_start = j * SW
-                        w_end = w_start + KW
-
-                        window = input[b, c, h_start:h_end, w_start:w_end]
-                        max_idx = np.unravel_index(np.argmax(window), window.shape)
-                        max_val = window[max_idx]
-
-                        output[b, c, i, j] = max_val
-                        self.max_indices[b, c, i, j] = (h_start + max_idx[0], w_start + max_idx[1])
+        # --- INICIO BLOQUE GENERADO CON IA ---
+        # 1. Crear vista vectorizada de las ventanas con as_strided
+        s0, s1, s2, s3 = input.strides
+        view_shape = (B, C, out_h, out_w, KH, KW)
+        view_strides = (s0, s1, s2 * SH, s3 * SW, s2, s3)
+        
+        strided_input = np.lib.stride_tricks.as_strided(input, shape=view_shape, strides=view_strides)
+        
+        # 2. Obtener el valor máximo en las dos últimas dimensiones (la ventana)
+        output = np.max(strided_input, axis=(4, 5))
+        
+        # 3. Calcular los índices vectorizados (necesario si luego se llama a backward)
+        # Aplanamos la ventana de (KH, KW) a (KH * KW)
+        strided_input_flat = strided_input.reshape(B, C, out_h, out_w, -1)
+        max_idx_flat = np.argmax(strided_input_flat, axis=4) # Índice relativo (1D) dentro de la ventana
+        
+        # Convertir índice relativo 1D a coordenadas relativas 2D (h, w)
+        max_idx_h = max_idx_flat // KW
+        max_idx_w = max_idx_flat % KW
+        
+        # Crear mallas (grids) base para sumar las posiciones absolutas
+        grid_h = np.arange(out_h) * SH
+        grid_w = np.arange(out_w) * SW
+        
+        # Expandir con broadcasting para poder sumar
+        grid_h = grid_h.reshape(1, 1, out_h, 1)
+        grid_w = grid_w.reshape(1, 1, 1, out_w)
+        
+        # Coordenadas absolutas = coordenadas base + coordenadas relativas
+        abs_idx_h = grid_h + max_idx_h
+        abs_idx_w = grid_w + max_idx_w
+        
+        # Guardar en el formato original
+        self.max_indices = np.stack((abs_idx_h, abs_idx_w), axis=-1)
+        # --- FIN BLOQUE GENERADO CON IA ---
 
         return output
 
     def backward(self, grad_output, learning_rate=None):
+        # --- INICIO BLOQUE GENERADO CON IA ---
         B, C, H, W = self.input.shape
         grad_input = np.zeros_like(self.input, dtype=grad_output.dtype)
         out_h, out_w = grad_output.shape[2], grad_output.shape[3]
 
-        for b in range(B):
-            for c in range(C):
-                for i in range(out_h):
-                    for j in range(out_w):
-                        r, s = self.max_indices[b, c, i, j]
-                        grad_input[b, c, r, s] += grad_output[b, c, i, j]
+        # Crear índices para las dimensiones de Batch y Channel (broadcasting)
+        batch_grid = np.arange(B).reshape(B, 1, 1, 1)
+        channel_grid = np.arange(C).reshape(1, C, 1, 1)
+        
+        # Extraer los índices absolutos de alto y ancho que calculamos en el forward
+        h_indices = self.max_indices[..., 0]
+        w_indices = self.max_indices[..., 1]
+        
+        # Usar np.add.at para enviar cada gradiente a su píxel de origen
+        # Es mucho más rápido que un bucle y soporta superposición segura (overlapping)
+        np.add.at(grad_input, (batch_grid, channel_grid, h_indices, w_indices), grad_output)
 
         return grad_input
+        # --- FIN BLOQUE GENERADO CON IA ---
