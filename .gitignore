@@ -3,7 +3,8 @@ data/cifar-100-python/
 cython_modules/data/
 
 # Ignorar binarios y cachés de Python/Cython (muy buena práctica)
-/pycache/*
+data/__pycache__/
+__pycache__/
 *.so
 *.pyd
 *.obj
