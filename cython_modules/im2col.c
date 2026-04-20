@@ -3,7 +3,22 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [],
+        "depends": [
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayobject.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayscalars.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarrayobject.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarraytypes.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h"
+        ],
+        "extra_compile_args": [
+            "/openmp"
+        ],
+        "extra_link_args": [
+            "/openmp"
+        ],
+        "include_dirs": [
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include"
+        ],
         "name": "im2col",
         "sources": [
             "im2col.pyx"
@@ -1584,6 +1599,13 @@ typedef struct {
   char is_valid_array;
 } __Pyx_BufFmt_Context;
 
+/* NoFastGil.proto */
+#define __Pyx_PyGILState_Ensure PyGILState_Ensure
+#define __Pyx_PyGILState_Release PyGILState_Release
+#define __Pyx_FastGIL_Remember()
+#define __Pyx_FastGIL_Forget()
+#define __Pyx_FastGilFuncInit()
+
 /* IncludeStructmemberH.proto (used by FixUpExtensionType) */
 #include <structmember.h>
 
@@ -2283,6 +2305,9 @@ static int __Pyx_VectorcallBuilder_AddArgStr(const char *key, PyObject *value, P
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
+/* IncludeStdlibH.proto */
+#include <stdlib.h>
+
 #define __Pyx_BufPtrStrided4d(type, buf, i0, s0, i1, s1, i2, s2, i3, s3) (type)((char*)buf + i0 * s0 + i1 * s1 + i2 * s2 + i3 * s3)
 #define __Pyx_BufPtrStrided3d(type, buf, i0, s0, i1, s1, i2, s2) (type)((char*)buf + i0 * s0 + i1 * s1 + i2 * s2)
 /* TypeImport.proto */
@@ -2897,7 +2922,7 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_values __pyx_string_tab[45]
 #define __pyx_n_u_w_start __pyx_string_tab[46]
 #define __pyx_n_u_zeros __pyx_string_tab[47]
-#define __pyx_kp_b_iso88591_L_b_2_6_3j_SYY_U_1_E_aq_U_1_Ba __pyx_string_tab[48]
+#define __pyx_kp_b_iso88591_L_b_1_6_3j_SYY_1A_E_aq_U_1_Ba_B __pyx_string_tab[48]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -4276,8 +4301,8 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 }
 
 /* "im2col.pyx":7
+ * from cython.parallel cimport prange
  * 
- * # Desactivamos comprobaciones de lmites para que C vaya al mximo de velocidad
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
  * @cython.cdivision(True)
@@ -4518,43 +4543,43 @@ static PyObject *__pyx_pf_6im2col_im2col_forward_cython(CYTHON_UNUSED PyObject *
  *     cdef int col_rows = C * kernel_size * kernel_size
  *     cdef int col_cols = out_h * out_w             # <<<<<<<<<<<<<<
  * 
- *     # Reservamos la memoria para la matriz de columnas de todo el batch
+ *     cdef np.ndarray[np.float32_t, ndim=3] cols = np.zeros((B, col_rows, col_cols), dtype=np.float32)
 */
   __pyx_v_col_cols = (__pyx_v_out_h * __pyx_v_out_w);
 
-  /* "im2col.pyx":20
+  /* "im2col.pyx":19
+ *     cdef int col_cols = out_h * out_w
  * 
- *     # Reservamos la memoria para la matriz de columnas de todo el batch
  *     cdef np.ndarray[np.float32_t, ndim=3] cols = np.zeros((B, col_rows, col_cols), dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
- *     # Declaracin esttica de variables iteradoras (crucial en Cython)
+ *     # Declaramos las variables iteradoras explcitamente para que cada hilo tenga las suyas
 */
   __pyx_t_3 = NULL;
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyLong_From_int(__pyx_v_B); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyLong_From_int(__pyx_v_B); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyLong_From_int(__pyx_v_col_rows); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyLong_From_int(__pyx_v_col_rows); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyLong_From_int(__pyx_v_col_cols); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyLong_From_int(__pyx_v_col_cols); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_4);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4) != (0)) __PYX_ERR(0, 20, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4) != (0)) __PYX_ERR(0, 19, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_6);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_6) != (0)) __PYX_ERR(0, 20, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_6) != (0)) __PYX_ERR(0, 19, __pyx_L1_error);
   __Pyx_GIVEREF(__pyx_t_7);
-  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_t_7) != (0)) __PYX_ERR(0, 20, __pyx_L1_error);
+  if (__Pyx_PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_t_7) != (0)) __PYX_ERR(0, 19, __pyx_L1_error);
   __pyx_t_4 = 0;
   __pyx_t_6 = 0;
   __pyx_t_7 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_mstate_global->__pyx_n_u_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_9 = 1;
@@ -4571,24 +4596,24 @@ static PyObject *__pyx_pf_6im2col_im2col_forward_cython(CYTHON_UNUSED PyObject *
   #endif
   {
     PyObject *__pyx_callargs[2 + ((CYTHON_VECTORCALL) ? 1 : 0)] = {__pyx_t_3, __pyx_t_8};
-    __pyx_t_7 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_MakeVectorcallBuilderKwds(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_7, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 20, __pyx_L1_error)
+    if (__Pyx_VectorcallBuilder_AddArg(__pyx_mstate_global->__pyx_n_u_dtype, __pyx_t_6, __pyx_t_7, __pyx_callargs+2, 0) < (0)) __PYX_ERR(0, 19, __pyx_L1_error)
     __pyx_t_2 = __Pyx_Object_Vectorcall_CallFromBuilder((PyObject*)__pyx_t_5, __pyx_callargs+__pyx_t_9, (2-__pyx_t_9) | (__pyx_t_9*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET), __pyx_t_7);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   }
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 20, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_mstate_global->__pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 19, __pyx_L1_error)
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_cols.rcbuffer->pybuffer, (PyObject*)((PyArrayObject *)__pyx_t_2), &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 3, 0, __pyx_stack) == -1)) {
       __pyx_v_cols = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_cols.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 20, __pyx_L1_error)
+      __PYX_ERR(0, 19, __pyx_L1_error)
     } else {__pyx_pybuffernd_cols.diminfo[0].strides = __pyx_pybuffernd_cols.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_cols.diminfo[0].shape = __pyx_pybuffernd_cols.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_cols.diminfo[1].strides = __pyx_pybuffernd_cols.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_cols.diminfo[1].shape = __pyx_pybuffernd_cols.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_cols.diminfo[2].strides = __pyx_pybuffernd_cols.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_cols.diminfo[2].shape = __pyx_pybuffernd_cols.rcbuffer->pybuffer.shape[2];
     }
   }
@@ -4596,155 +4621,187 @@ static PyObject *__pyx_pf_6im2col_im2col_forward_cython(CYTHON_UNUSED PyObject *
   __pyx_t_2 = 0;
 
   /* "im2col.pyx":28
- * 
- *     # Estos bucles anidados ya no duelen porque se compilan a C puro
- *     for b in range(B):             # <<<<<<<<<<<<<<
- *         col_idx = 0
- *         for i in range(out_h):
-*/
-  __pyx_t_10 = __pyx_v_B;
-  __pyx_t_11 = __pyx_t_10;
-  for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
-    __pyx_v_b = __pyx_t_12;
-
-    /* "im2col.pyx":29
- *     # Estos bucles anidados ya no duelen porque se compilan a C puro
- *     for b in range(B):
- *         col_idx = 0             # <<<<<<<<<<<<<<
+ *     # LA MAGIA DE HPC! prange divide el batch (B) entre los ncleos de la CPU.
+ *     # nogil=True desconecta las protecciones de Python para permitir multihilo real en C
+ *     for b in prange(B, nogil=True):             # <<<<<<<<<<<<<<
  *         for i in range(out_h):
  *             for j in range(out_w):
 */
-    __pyx_v_col_idx = 0;
+  {
+      PyThreadState * _save;
+      _save = PyEval_SaveThread();
+      __Pyx_FastGIL_Remember();
+      /*try:*/ {
+        __pyx_t_10 = __pyx_v_B;
+        {
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_12 = (__pyx_t_10 - 0 + 1 - 1/abs(1)) / 1;
+            if (__pyx_t_12 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel private(__pyx_t_13, __pyx_t_14, __pyx_t_15, __pyx_t_16, __pyx_t_17, __pyx_t_18, __pyx_t_19, __pyx_t_20, __pyx_t_21, __pyx_t_22, __pyx_t_23, __pyx_t_24, __pyx_t_25, __pyx_t_26, __pyx_t_27, __pyx_t_28, __pyx_t_29, __pyx_t_30, __pyx_t_31, __pyx_t_32, __pyx_t_33, __pyx_t_34)
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_b) lastprivate(__pyx_v_b) firstprivate(__pyx_v_c) lastprivate(__pyx_v_c) firstprivate(__pyx_v_col_idx) lastprivate(__pyx_v_col_idx) firstprivate(__pyx_v_h_start) lastprivate(__pyx_v_h_start) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) firstprivate(__pyx_v_kh) lastprivate(__pyx_v_kh) firstprivate(__pyx_v_kw) lastprivate(__pyx_v_kw) firstprivate(__pyx_v_row_idx) lastprivate(__pyx_v_row_idx) firstprivate(__pyx_v_w_start) lastprivate(__pyx_v_w_start)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_12; __pyx_t_11++){
+                        {
+                            __pyx_v_b = (int)(0 + 1 * __pyx_t_11);
 
-    /* "im2col.pyx":30
- *     for b in range(B):
- *         col_idx = 0
+                            /* "im2col.pyx":29
+ *     # nogil=True desconecta las protecciones de Python para permitir multihilo real en C
+ *     for b in prange(B, nogil=True):
  *         for i in range(out_h):             # <<<<<<<<<<<<<<
  *             for j in range(out_w):
  *                 h_start = i * stride
 */
-    __pyx_t_13 = __pyx_v_out_h;
-    __pyx_t_14 = __pyx_t_13;
-    for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
-      __pyx_v_i = __pyx_t_15;
+                            __pyx_t_13 = __pyx_v_out_h;
+                            __pyx_t_14 = __pyx_t_13;
+                            for (__pyx_t_15 = 0; __pyx_t_15 < __pyx_t_14; __pyx_t_15+=1) {
+                              __pyx_v_i = __pyx_t_15;
 
-      /* "im2col.pyx":31
- *         col_idx = 0
+                              /* "im2col.pyx":30
+ *     for b in prange(B, nogil=True):
  *         for i in range(out_h):
  *             for j in range(out_w):             # <<<<<<<<<<<<<<
  *                 h_start = i * stride
  *                 w_start = j * stride
 */
-      __pyx_t_16 = __pyx_v_out_w;
-      __pyx_t_17 = __pyx_t_16;
-      for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
-        __pyx_v_j = __pyx_t_18;
+                              __pyx_t_16 = __pyx_v_out_w;
+                              __pyx_t_17 = __pyx_t_16;
+                              for (__pyx_t_18 = 0; __pyx_t_18 < __pyx_t_17; __pyx_t_18+=1) {
+                                __pyx_v_j = __pyx_t_18;
 
-        /* "im2col.pyx":32
+                                /* "im2col.pyx":31
  *         for i in range(out_h):
  *             for j in range(out_w):
  *                 h_start = i * stride             # <<<<<<<<<<<<<<
  *                 w_start = j * stride
  * 
 */
-        __pyx_v_h_start = (__pyx_v_i * __pyx_v_stride);
+                                __pyx_v_h_start = (__pyx_v_i * __pyx_v_stride);
 
-        /* "im2col.pyx":33
+                                /* "im2col.pyx":32
  *             for j in range(out_w):
  *                 h_start = i * stride
  *                 w_start = j * stride             # <<<<<<<<<<<<<<
  * 
- *                 row_idx = 0
+ *                 # Calculamos el ndice directo en lugar de sumarlo, vital para paralelismo
 */
-        __pyx_v_w_start = (__pyx_v_j * __pyx_v_stride);
+                                __pyx_v_w_start = (__pyx_v_j * __pyx_v_stride);
 
-        /* "im2col.pyx":35
- *                 w_start = j * stride
+                                /* "im2col.pyx":35
  * 
- *                 row_idx = 0             # <<<<<<<<<<<<<<
+ *                 # Calculamos el ndice directo en lugar de sumarlo, vital para paralelismo
+ *                 col_idx = i * out_w + j             # <<<<<<<<<<<<<<
+ * 
  *                 for c in range(C):
- *                     for kh in range(kernel_size):
 */
-        __pyx_v_row_idx = 0;
+                                __pyx_v_col_idx = ((__pyx_v_i * __pyx_v_out_w) + __pyx_v_j);
 
-        /* "im2col.pyx":36
+                                /* "im2col.pyx":37
+ *                 col_idx = i * out_w + j
  * 
- *                 row_idx = 0
  *                 for c in range(C):             # <<<<<<<<<<<<<<
  *                     for kh in range(kernel_size):
  *                         for kw in range(kernel_size):
 */
-        __pyx_t_19 = __pyx_v_C;
-        __pyx_t_20 = __pyx_t_19;
-        for (__pyx_t_21 = 0; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
-          __pyx_v_c = __pyx_t_21;
+                                __pyx_t_19 = __pyx_v_C;
+                                __pyx_t_20 = __pyx_t_19;
+                                for (__pyx_t_21 = 0; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
+                                  __pyx_v_c = __pyx_t_21;
 
-          /* "im2col.pyx":37
- *                 row_idx = 0
+                                  /* "im2col.pyx":38
+ * 
  *                 for c in range(C):
  *                     for kh in range(kernel_size):             # <<<<<<<<<<<<<<
  *                         for kw in range(kernel_size):
- *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]
+ *                             row_idx = c * (kernel_size * kernel_size) + kh * kernel_size + kw
 */
-          __pyx_t_22 = __pyx_v_kernel_size;
-          __pyx_t_23 = __pyx_t_22;
-          for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_23; __pyx_t_24+=1) {
-            __pyx_v_kh = __pyx_t_24;
+                                  __pyx_t_22 = __pyx_v_kernel_size;
+                                  __pyx_t_23 = __pyx_t_22;
+                                  for (__pyx_t_24 = 0; __pyx_t_24 < __pyx_t_23; __pyx_t_24+=1) {
+                                    __pyx_v_kh = __pyx_t_24;
 
-            /* "im2col.pyx":38
+                                    /* "im2col.pyx":39
  *                 for c in range(C):
  *                     for kh in range(kernel_size):
  *                         for kw in range(kernel_size):             # <<<<<<<<<<<<<<
+ *                             row_idx = c * (kernel_size * kernel_size) + kh * kernel_size + kw
  *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]
- *                             row_idx += 1
 */
-            __pyx_t_25 = __pyx_v_kernel_size;
-            __pyx_t_26 = __pyx_t_25;
-            for (__pyx_t_27 = 0; __pyx_t_27 < __pyx_t_26; __pyx_t_27+=1) {
-              __pyx_v_kw = __pyx_t_27;
+                                    __pyx_t_25 = __pyx_v_kernel_size;
+                                    __pyx_t_26 = __pyx_t_25;
+                                    for (__pyx_t_27 = 0; __pyx_t_27 < __pyx_t_26; __pyx_t_27+=1) {
+                                      __pyx_v_kw = __pyx_t_27;
 
-              /* "im2col.pyx":39
+                                      /* "im2col.pyx":40
  *                     for kh in range(kernel_size):
  *                         for kw in range(kernel_size):
- *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]             # <<<<<<<<<<<<<<
- *                             row_idx += 1
- *                 col_idx += 1
-*/
-              __pyx_t_28 = __pyx_v_b;
-              __pyx_t_29 = __pyx_v_c;
-              __pyx_t_30 = (__pyx_v_h_start + __pyx_v_kh);
-              __pyx_t_31 = (__pyx_v_w_start + __pyx_v_kw);
-              __pyx_t_32 = __pyx_v_b;
-              __pyx_t_33 = __pyx_v_row_idx;
-              __pyx_t_34 = __pyx_v_col_idx;
-              *__Pyx_BufPtrStrided3d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_cols.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_cols.diminfo[0].strides, __pyx_t_33, __pyx_pybuffernd_cols.diminfo[1].strides, __pyx_t_34, __pyx_pybuffernd_cols.diminfo[2].strides) = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_pad.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_input_pad.diminfo[0].strides, __pyx_t_29, __pyx_pybuffernd_input_pad.diminfo[1].strides, __pyx_t_30, __pyx_pybuffernd_input_pad.diminfo[2].strides, __pyx_t_31, __pyx_pybuffernd_input_pad.diminfo[3].strides));
-
-              /* "im2col.pyx":40
- *                         for kw in range(kernel_size):
+ *                             row_idx = c * (kernel_size * kernel_size) + kh * kernel_size + kw             # <<<<<<<<<<<<<<
  *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]
- *                             row_idx += 1             # <<<<<<<<<<<<<<
- *                 col_idx += 1
  * 
 */
-              __pyx_v_row_idx = (__pyx_v_row_idx + 1);
-            }
-          }
-        }
+                                      __pyx_v_row_idx = (((__pyx_v_c * (__pyx_v_kernel_size * __pyx_v_kernel_size)) + (__pyx_v_kh * __pyx_v_kernel_size)) + __pyx_v_kw);
 
-        /* "im2col.pyx":41
- *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]
- *                             row_idx += 1
- *                 col_idx += 1             # <<<<<<<<<<<<<<
+                                      /* "im2col.pyx":41
+ *                         for kw in range(kernel_size):
+ *                             row_idx = c * (kernel_size * kernel_size) + kh * kernel_size + kw
+ *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]             # <<<<<<<<<<<<<<
  * 
  *     return cols
 */
-        __pyx_v_col_idx = (__pyx_v_col_idx + 1);
+                                      __pyx_t_28 = __pyx_v_b;
+                                      __pyx_t_29 = __pyx_v_c;
+                                      __pyx_t_30 = (__pyx_v_h_start + __pyx_v_kh);
+                                      __pyx_t_31 = (__pyx_v_w_start + __pyx_v_kw);
+                                      __pyx_t_32 = __pyx_v_b;
+                                      __pyx_t_33 = __pyx_v_row_idx;
+                                      __pyx_t_34 = __pyx_v_col_idx;
+                                      *__Pyx_BufPtrStrided3d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_cols.rcbuffer->pybuffer.buf, __pyx_t_32, __pyx_pybuffernd_cols.diminfo[0].strides, __pyx_t_33, __pyx_pybuffernd_cols.diminfo[1].strides, __pyx_t_34, __pyx_pybuffernd_cols.diminfo[2].strides) = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_pad.rcbuffer->pybuffer.buf, __pyx_t_28, __pyx_pybuffernd_input_pad.diminfo[0].strides, __pyx_t_29, __pyx_pybuffernd_input_pad.diminfo[1].strides, __pyx_t_30, __pyx_pybuffernd_input_pad.diminfo[2].strides, __pyx_t_31, __pyx_pybuffernd_input_pad.diminfo[3].strides));
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
       }
-    }
+
+      /* "im2col.pyx":28
+ *     # LA MAGIA DE HPC! prange divide el batch (B) entre los ncleos de la CPU.
+ *     # nogil=True desconecta las protecciones de Python para permitir multihilo real en C
+ *     for b in prange(B, nogil=True):             # <<<<<<<<<<<<<<
+ *         for i in range(out_h):
+ *             for j in range(out_w):
+*/
+      /*finally:*/ {
+        /*normal exit:*/{
+          __Pyx_FastGIL_Forget();
+          PyEval_RestoreThread(_save);
+          goto __pyx_L5;
+        }
+        __pyx_L5:;
+      }
   }
 
   /* "im2col.pyx":43
- *                 col_idx += 1
+ *                             cols[b, row_idx, col_idx] = input_pad[b, c, h_start + kh, w_start + kw]
  * 
  *     return cols             # <<<<<<<<<<<<<<
  * # --- FIN BLOQUE GENERADO CON IA ---
@@ -4755,8 +4812,8 @@ static PyObject *__pyx_pf_6im2col_im2col_forward_cython(CYTHON_UNUSED PyObject *
   goto __pyx_L0;
 
   /* "im2col.pyx":7
+ * from cython.parallel cimport prange
  * 
- * # Desactivamos comprobaciones de lmites para que C vaya al mximo de velocidad
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
  * @cython.cdivision(True)
@@ -5310,8 +5367,8 @@ __Pyx_RefNannySetupContext("PyInit_im2col", 0);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "im2col.pyx":7
+ * from cython.parallel cimport prange
  * 
- * # Desactivamos comprobaciones de lmites para que C vaya al mximo de velocidad
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
  * @cython.cdivision(True)
@@ -5394,25 +5451,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 8; } index[] = {{1},{179},{8},{10},{38},{33},{1},{1},{20},{18},{1},{1},{18},{8},{7},{8},{4},{5},{7},{8},{7},{1},{6},{21},{9},{13},{5},{1},{11},{2},{2},{8},{10},{8},{2},{5},{5},{5},{3},{12},{7},{12},{10},{6},{8},{6},{7},{5},{221}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (673 bytes) */
-const char* const cstring = "BZh91AY&SY\362\002\336(\000\000F\377\377\367l~|{\203=@\277%[-\377\377\377\360@@@@@@@@@@@@@\000@\000@\002\001\300\023\210\201\004\362jO!\244\r=M\032d\03242\000h\320\320\315M<\247\250z\236!=\251\016\006\215\030\203F\2310\203\020\030\214M\0324h\003M4\000\000\000\346\023C h\030\214\200\000i\202\006 \032\032\r\006 h\000jh\304L\200\2314\323E<\246\324\0004\017P\000\000\000\000\017SM\016v:BAJ8\345*\2241\234Se\320\300,\n\245=2\256\265B\021\003\023\213\251\260;*A\231\251F\211N\025\214\013\000\030\036~h\356Gz\t\271b\235\220c2\345\3722\306\014\311IH\270\227G%'v\310@\n\332\204\017\313\254bJ[\007\t(\354\241-\005\371\205a\335\254\027\367\036\357i\204\007\235Zn\270\341\227\033$\271\345\352\266\203\000\3329+!\005\310?\201\354\374\304X\232\006\224Ad\030Z\256\374\252/\360\331\030P\263\273l\210\007\007*\"5\255 d\013}]8$\253\361\277\373\247\251\322\034\376\237\323\375C*\331\266\315\326\n-\024C\253eOGl\345\217\341g\306\341M\211\222\375\315&\216&\256\002\216\266\352v\220\322\234R\035&\262\311\365\222\335X\215\3463&\224\230g\316\311Qjp(\2519O\3239\303\205\250b\222\303\005\250M\005\304\331\375\321\227vac3\210\305\244\005\004\032V\356\264\030<ES?\031\005W\243\205\223\340\353\340\370\235\255.\323\363\236\02704\305u\207\031\327\274\340\325Rj\271\223\231\263\322a\314MH\367#\032\266\302\033`\373\013)\t\216\350\003\336\272\362\001\323\353\226@\005\250Op\004-\246}%Xy\201]RF/\036\200\322fU\333\310-x\\T_H\272\245\n\014D+H\210\224\323CC\212\372\310\030\232fU\026=\300\346 \343\2114\245\2334pR\r\017q\007\322\262t@\270S9H#\315@|\201\277J\"\313\206\001\373!d\257\314\314c\240\231FN+\250\251\035m\000\256Kh\013\307\246]1p\325\\\315\254\304\020\342\360\364\353\212%\022W\330\215\327\305A\231\005\034\200yf\010\006\214A '8=nax\330\311\227>\033\252w\006\027\261\316H\355X\236\0349q\333\202\024\301\002-\006\255R\022\271AO\004\030\200\204\353\367\361w$S\205\t\017 -\342\200";
-    PyObject *data = __Pyx_DecompressString(cstring, 673, 2);
+    const struct { const unsigned int length: 8; } index[] = {{1},{179},{8},{10},{38},{33},{1},{1},{20},{18},{1},{1},{18},{8},{7},{8},{4},{5},{7},{8},{7},{1},{6},{21},{9},{13},{5},{1},{11},{2},{2},{8},{10},{8},{2},{5},{5},{5},{3},{12},{7},{12},{10},{6},{8},{6},{7},{5},{237}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (706 bytes) */
+const char* const cstring = "BZh91AY&SY\216\261\007\246\000\000E\177\377\377l~~{\203=D\277%[-\377\377\377\360@@@@@@@@@@@@@\000@\000@\002\032u\315\311\270\"\002\023i\241'\244\332\206\230\206\215\r4zL@\006@\320\365=CF\032M\251\3516H5L\233D\247\264\024\331Lz\223\324z\233S@\304\321\220\000\320\001\220\000\006\200\304\032\232d\0225\017F$\310\000\320\032\000\0314\000\006\200\003A\240=@\324\365\t\224z#\024\364M\242z\232\001\240\000\000\000\000\r\006\200\014\232']>\310\367U\302\365\270c\356i\210\212\177\327\363\203\032\317\332&\326I\002\304Ot\327a\362\315\nA{Q\266\314\200\3270\034(\034)/\004P\275\r\273\361Y\301\235`V5\013\204\3070F\224\224\212\tDXv\240\300)P \033\035\247\330a\240l\231G-\026)\246\347\350\253O\243\337r\255=K\254\2631\"%\347t\335qc*6\247C\227\245\357\345\203\003\223]\311\262Gy\021\371\tm\005\332\200Au(\262F>\027g\315\325\\3\210\231Wz\271\020\006X\252\034\347!\01000\300o(V\000gk+\321\263k\214+\331\307*D\326\327$\337\351\241\370\303\356kN\205D\335M\001\371X\370\362O\020\304I\317\306g\351\314q\225N\371\236\230\364\333\224\034\320\014P\332\316\324oLd\320\210:\304\nE)b\t$io\306W\322!*\312\225\3449\204\344\201\001\230\306B'\316d\313E\313\372v\352\010\321T<\347(\201@\204\231-\310\026\027XB\346\326\2001\215x\305\010i\235'\272rF\262\262\352\211NU\005\240\212 h\221c\230[ZKi\252\024Es 53\t\2166)m\215\357\327{\250\024\244 I\036\023\026JD\001\303\207>\210\0026\023\214\002\022Q\202c\020j\300\212\027\336C,P\t(\246\314[\025\345\244h^\321\024\241``XpbI'e\2572d\205\032\221\220\260\347\"'\320\325\005\317!K|\244\301,\256\252\302\022\032\242\025\002V\333\240O\020<e\202R\022\002\226\020\254\222$\257\013\201U\034\234\272,jGr\014\323\361LT\264r\270\220\034\344\266\200\266\273\205t\\S\3243gW\355\373\334\377>~\227\006\376\027=D\264\260\206LY\003,B\2764>\020\200\323\230)p~\013\302\244\372\321/35\211Q:;\250\247$\022Y41nI#8\2575\006x\036\301\243\033\201\207\003u\264Q\326\335!W\252eH@\031\177\305\334\221N\024$#\254A\351\200";
+    PyObject *data = __Pyx_DecompressString(cstring, 706, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (594 bytes) */
-const char* const cstring = "x\332eQ1O\333@\030%\210 \020\014!\005\211\266\014\227V-S#%\240\252[U(HH\025\212@ !*\216/\276\317\365\021\373\316\271;\223\230\251cF\217\036=fd\314\310\310\350\321#?\201\237\3203i\021R-\335}\357\354\367\374\336w\337\327Ci\220\030\017\014\331\215\215'\005\341\2320\364y\027\025\030\364c\242\215\342\216AU\222\004\351\354u>m\177\331& \030Qx\205\216\321DG]\307\007\255Q\023\351\222n\304}\303\0051q\210\272I\016\\\022\313\210\010DF\214$\241\345\275\024\030\017\005\321hJ@6A\010i\300p)\250\225s\361k\2230\256\254\t\277\306R\275\017\276\306&0F-\017y\320v\244\337\014\343\241\210\2020n:Ra3\210\254;(\0051q\201\373SW\036\204R\231\027\254(\000\343\375G\330\331\245\264\023\017\355\372n[\246\20784G\350\202\216\205\303e)\224\221\355\014u\327q|[)\2671\0258\330\005\247g\223P\273tY9\033\226E\311Ay\324\254\274\n\327\227`\266\332\224\272\221p(\365\2506\240\014\237\3660\335\251+\325\000\024\243\316\323$\270\010#CC`\224k\372l\316\r\006\372\252\207J\240O5\277\301\236\327\033P\032\200\rc\237@\262\310\307\022\t\010l\025\341S\327VK\275r\033\2042\244\264\037\201?\375n3\226q)\2653\370+\261\210\331\256\355=\226\243g\366\215Am(\275\006?B=\230\006\277A%\365\357\312\343\362L\265\236\274N?f\225l\245\230[\371\007\037\346\326\323\331\364]\372c<;n\024\3660\237v\263\312\343\374L\265}[\277\375<\251O\266&W\367K\371\361Y~v\236\237\377|\254\315T\027G\325\321I\322HZ\305B=i\024\013\313\243\275d-\201\244_,\327\222jr\2226\322VQ{c\377\272\223\3023x\260\240Q\324V\223\275t-\205\264_\254\226f\230\265\262o\305\372F\272\237}\310\372\343J\261Al\254W\331\301\370|\262x\267r\367\376\356\370~!\357\034\345G\247\371\351E~q\231_B\261\261\231\365\213\332\333\264\3650\2674j\375\0013#4\317";
-    PyObject *data = __Pyx_DecompressString(cstring, 594, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (606 bytes) */
+const char* const cstring = "x\332eQ1O\333@\030%\020\020\010\006\222\006\211\266T:Z\025\246F\n\240\252C\245\n(HH\025\212@EB \216\317\366\347\346\210}\347\334\235I\314\324\221\321\243G\217\031\0313f\314\350\321c~\002?\241g\322\"\244Z\272\373\336\331\357\371\275\357\276o\307B#\321-\320d?\322-\301\tS\304A\217Y(A\243\027\021\245%\2635\312\202\304I\363\240\371i\347\313\016\001\356\020\2117hkETh\331\036(\205\212\010\227X!\3634\343DG\001\252:9rI$B\302\021\035\242\005\t\014\357\245@\267\220\023\205\272\000d\0238\027\0324\023\234\0329\343\2776\211\303\2441a\267X\250\017\301SX\007\307\241\206\207\314\337\262\205W\017\242\036\017\375 \252\333Bb\335\017\215;H\t\021q\201y\023W\346\007B\352\027\254\320\007\335\372\217\260\267Oi3\352\231\365\335\264L\217\261\247O\320\005\025q\233\211B(B\323\031*\313\266=S)31%\330h\201\3356I\250Y\252\250\314\351\025E\212nqTNq\025\256'@ooQ\352\206\334\246\264E\225\006\251\331\244\207\311N]!\273 \035j?M\202\361 \3244\000\2072E\237\315\231F_\335\264Qr\364\250bw\330n\265\273\224\372`\302\230\307\027N\350a\2018\370\246\362\340\251k\243\245\255b\353\006\"\240\264\023\2027\371n2\026q)53\370+1\3101]\233{,F\357\2307\032\225\246\364\026\274\020Uw\022\374\016\245P\277K\217KS\263\325\370u\262\221\226\322J^\256\374\203\343\362j2\235\274O~\364\247\373\353\2719\314%VZ\032\227\033\017\325\207\317\203\352`{p3Z\314N\317\263\363\213\354\342\362\261:\265P\213\033\361n>\277t\177\020\257\304\020w\362\245\345x6\376\231\254'\215|\371\215\371\325^\002\317\340qn\252\362\366\t\272\351^\n\343\345Z|\220\254$\220t\362Z\341\205i#\335\315W\327\222\303\364c\332\351\227\362\265\215\324\352\317\364\277>\310\301\273\2415\232\031m\215.'\336\371\0321\201_\245G\375\213\301\302\2602\3740<\035\315g\315\223\354\344,;\273\312\256\256\263k\030\227\027\357\033\177\000\307\005>w";
+    PyObject *data = __Pyx_DecompressString(cstring, 606, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (794 bytes) */
-const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_noteim2col.pyxnumpy.core.multiarray failed to importnumpy.core.umath failed to importBC__Pyx_PyDict_NextRefasyncio.coroutinesbccline_in_tracebackcol_colscol_idxcol_rowscolsdtypefloat32__func__h_startiim2colim2col_forward_cythoninput_pad_is_coroutineitemsjkernel_sizekhkw__main____module____name__npnumpyout_hout_wpop__qualname__row_idx__set_name__setdefaultstride__test__valuesw_startzeros\200\001\360\014\000\005\022\220\031\230&\240\001\240\021\330\004\021\220\031\230&\240\001\240\021\340\004\030\230\002\230\"\230L\250\002\250!\330\004\030\230\006\230b\240\001\360\006\000\0052\260\022\2606\270\022\2703\270j\310\013\320SY\320Y[\320[\\\360\020\000\005\t\210\005\210U\220!\2201\330\010\022\220!\330\010\014\210E\220\025\220a\220q\330\014\020\220\005\220U\230!\2301\330\020\032\230\"\230B\230a\330\020\032\230\"\230B\230a\340\020\032\230!\330\020\024\220E\230\025\230a\230q\330\024\030\230\006\230e\2401\240A\330\030\034\230F\240%\240q\250\001\330\034 \240\001\240\023\240I\250[\270\t\300\021\300#\300S\310\010\320PR\320RV\320V^\320^`\320`a\330\034'\240q\330\020\033\2301\340\004\013\2101";
+    #else /* compression: none (810 bytes) */
+const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_noteim2col.pyxnumpy.core.multiarray failed to importnumpy.core.umath failed to importBC__Pyx_PyDict_NextRefasyncio.coroutinesbccline_in_tracebackcol_colscol_idxcol_rowscolsdtypefloat32__func__h_startiim2colim2col_forward_cythoninput_pad_is_coroutineitemsjkernel_sizekhkw__main____module____name__npnumpyout_hout_wpop__qualname__row_idx__set_name__setdefaultstride__test__valuesw_startzeros\200\001\360\014\000\005\022\220\031\230&\240\001\240\021\330\004\021\220\031\230&\240\001\240\021\340\004\030\230\002\230\"\230L\250\002\250!\330\004\030\230\006\230b\240\001\340\0041\260\022\2606\270\022\2703\270j\310\013\320SY\320Y[\320[\\\360\022\000\t\024\2201\220A\330\010\014\210E\220\025\220a\220q\330\014\020\220\005\220U\230!\2301\330\020\032\230\"\230B\230a\330\020\032\230\"\230B\230a\360\006\000\021\033\230\"\230B\230f\240B\240a\340\020\024\220E\230\025\230a\230q\330\024\030\230\006\230e\2401\240A\330\030\034\230F\240%\240q\250\001\330\034&\240b\250\003\250<\260r\270\035\300b\310\003\3102\310\\\320Y[\320[\\\330\034 \240\001\240\023\240I\250[\270\t\300\021\300#\300S\310\010\320PR\320RV\320V^\320^`\320`a\340\004\013\2101";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
@@ -5495,7 +5552,7 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 20, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 7};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_input_pad, __pyx_mstate->__pyx_n_u_kernel_size, __pyx_mstate->__pyx_n_u_stride, __pyx_mstate->__pyx_n_u_out_h, __pyx_mstate->__pyx_n_u_out_w, __pyx_mstate->__pyx_n_u_B, __pyx_mstate->__pyx_n_u_C, __pyx_mstate->__pyx_n_u_col_rows, __pyx_mstate->__pyx_n_u_col_cols, __pyx_mstate->__pyx_n_u_cols, __pyx_mstate->__pyx_n_u_b, __pyx_mstate->__pyx_n_u_c, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_j, __pyx_mstate->__pyx_n_u_kh, __pyx_mstate->__pyx_n_u_kw, __pyx_mstate->__pyx_n_u_col_idx, __pyx_mstate->__pyx_n_u_row_idx, __pyx_mstate->__pyx_n_u_h_start, __pyx_mstate->__pyx_n_u_w_start};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_im2col_pyx, __pyx_mstate->__pyx_n_u_im2col_forward_cython, __pyx_mstate->__pyx_kp_b_iso88591_L_b_2_6_3j_SYY_U_1_E_aq_U_1_Ba, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_im2col_pyx, __pyx_mstate->__pyx_n_u_im2col_forward_cython, __pyx_mstate->__pyx_kp_b_iso88591_L_b_1_6_3j_SYY_1A_E_aq_U_1_Ba_B, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;

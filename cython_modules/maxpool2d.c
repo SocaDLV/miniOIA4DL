@@ -3,7 +3,22 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "depends": [],
+        "depends": [
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayobject.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\arrayscalars.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarrayobject.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ndarraytypes.h",
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include\\numpy\\ufuncobject.h"
+        ],
+        "extra_compile_args": [
+            "/openmp"
+        ],
+        "extra_link_args": [
+            "/openmp"
+        ],
+        "include_dirs": [
+            "C:\\Users\\Ivan\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\numpy\\core\\include"
+        ],
         "name": "maxpool2d",
         "sources": [
             "maxpool2d.pyx"
@@ -1584,6 +1599,13 @@ typedef struct {
   char is_valid_array;
 } __Pyx_BufFmt_Context;
 
+/* NoFastGil.proto */
+#define __Pyx_PyGILState_Ensure PyGILState_Ensure
+#define __Pyx_PyGILState_Release PyGILState_Release
+#define __Pyx_FastGIL_Remember()
+#define __Pyx_FastGIL_Forget()
+#define __Pyx_FastGilFuncInit()
+
 /* IncludeStructmemberH.proto (used by FixUpExtensionType) */
 #include <structmember.h>
 
@@ -2283,6 +2305,9 @@ static int __Pyx_VectorcallBuilder_AddArgStr(const char *key, PyObject *value, P
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
+/* IncludeStdlibH.proto */
+#include <stdlib.h>
+
 #define __Pyx_BufPtrStrided4d(type, buf, i0, s0, i1, s1, i2, s2, i3, s3) (type)((char*)buf + i0 * s0 + i1 * s1 + i2 * s2 + i3 * s3)
 /* TypeImport.proto */
 #ifndef __PYX_HAVE_RT_ImportType_proto_3_2_4
@@ -2894,7 +2919,7 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_values __pyx_string_tab[43]
 #define __pyx_n_u_w_start __pyx_string_tab[44]
 #define __pyx_n_u_zeros __pyx_string_tab[45]
-#define __pyx_kp_b_iso88591_F_1_F_1_42V2S_7_RXXZZ_U_1_E_aq __pyx_string_tab[46]
+#define __pyx_kp_b_iso88591_F_1_F_1_32V2S_7_RXXZZ_1A_E_aq_U __pyx_string_tab[46]
 /* #### Code section: module_state_clear ### */
 #if CYTHON_USE_MODULE_STATE
 static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
@@ -4272,8 +4297,8 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
   return __pyx_r;
 }
 
-/* "maxpool2d.pyx":6
- * cimport cython
+/* "maxpool2d.pyx":7
+ * from cython.parallel cimport prange
  * 
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
@@ -4323,60 +4348,60 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_input_array,&__pyx_mstate_global->__pyx_n_u_kernel_size,&__pyx_mstate_global->__pyx_n_u_stride,&__pyx_mstate_global->__pyx_n_u_out_h,&__pyx_mstate_global->__pyx_n_u_out_w,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 6, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 7, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 6, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 7, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 6, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 7, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 6, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 7, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 6, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 7, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 6, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 7, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "maxpool_forward_cython", 0) < (0)) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "maxpool_forward_cython", 0) < (0)) __PYX_ERR(0, 7, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 5; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("maxpool_forward_cython", 1, 5, 5, i); __PYX_ERR(0, 6, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("maxpool_forward_cython", 1, 5, 5, i); __PYX_ERR(0, 7, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 5)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 7, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 7, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 7, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 7, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 6, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 7, __pyx_L3_error)
     }
     __pyx_v_input_array = ((PyArrayObject *)values[0]);
-    __pyx_v_kernel_size = __Pyx_PyLong_As_int(values[1]); if (unlikely((__pyx_v_kernel_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
-    __pyx_v_stride = __Pyx_PyLong_As_int(values[2]); if (unlikely((__pyx_v_stride == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
-    __pyx_v_out_h = __Pyx_PyLong_As_int(values[3]); if (unlikely((__pyx_v_out_h == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
-    __pyx_v_out_w = __Pyx_PyLong_As_int(values[4]); if (unlikely((__pyx_v_out_w == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+    __pyx_v_kernel_size = __Pyx_PyLong_As_int(values[1]); if (unlikely((__pyx_v_kernel_size == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_stride = __Pyx_PyLong_As_int(values[2]); if (unlikely((__pyx_v_stride == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_out_h = __Pyx_PyLong_As_int(values[3]); if (unlikely((__pyx_v_out_h == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_out_w = __Pyx_PyLong_As_int(values[4]); if (unlikely((__pyx_v_out_w == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("maxpool_forward_cython", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 6, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("maxpool_forward_cython", 1, 5, 5, __pyx_nargs); __PYX_ERR(0, 7, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4387,7 +4412,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_input_array), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "input_array", 0))) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_input_array), __pyx_mstate_global->__pyx_ptype_5numpy_ndarray, 1, "input_array", 0))) __PYX_ERR(0, 10, __pyx_L1_error)
   __pyx_r = __pyx_pf_9maxpool2d_maxpool_forward_cython(__pyx_self, __pyx_v_input_array, __pyx_v_kernel_size, __pyx_v_stride, __pyx_v_out_h, __pyx_v_out_w);
 
   /* function exit code */
@@ -4474,36 +4499,36 @@ static PyObject *__pyx_pf_9maxpool2d_maxpool_forward_cython(CYTHON_UNUSED PyObje
   __pyx_pybuffernd_input_array.rcbuffer = &__pyx_pybuffer_input_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_input_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_input_array, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) __PYX_ERR(0, 6, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_input_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_input_array, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float32_t, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
   }
   __pyx_pybuffernd_input_array.diminfo[0].strides = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_input_array.diminfo[0].shape = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_input_array.diminfo[1].strides = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_input_array.diminfo[1].shape = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_input_array.diminfo[2].strides = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_input_array.diminfo[2].shape = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.shape[2]; __pyx_pybuffernd_input_array.diminfo[3].strides = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.strides[3]; __pyx_pybuffernd_input_array.diminfo[3].shape = __pyx_pybuffernd_input_array.rcbuffer->pybuffer.shape[3];
 
-  /* "maxpool2d.pyx":12
+  /* "maxpool2d.pyx":13
  *                            int kernel_size, int stride, int out_h, int out_w):
  * 
  *     cdef int B = input_array.shape[0]             # <<<<<<<<<<<<<<
  *     cdef int C = input_array.shape[1]
  * 
 */
-  __pyx_t_1 = __pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_input_array)); if (unlikely(__pyx_t_1 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_input_array)); if (unlikely(__pyx_t_1 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_B = (__pyx_t_1[0]);
 
-  /* "maxpool2d.pyx":13
+  /* "maxpool2d.pyx":14
  * 
  *     cdef int B = input_array.shape[0]
  *     cdef int C = input_array.shape[1]             # <<<<<<<<<<<<<<
  * 
- *     # Matriz de salida inicializada a ceros
+ *     cdef np.ndarray[np.float32_t, ndim=4] output = np.zeros((B, C, out_h, out_w), dtype=np.float32)
 */
-  __pyx_t_1 = __pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_input_array)); if (unlikely(__pyx_t_1 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5numpy_7ndarray_5shape_shape(((PyArrayObject *)__pyx_v_input_array)); if (unlikely(__pyx_t_1 == ((void *)NULL) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L1_error)
   __pyx_v_C = (__pyx_t_1[1]);
 
   /* "maxpool2d.pyx":16
+ *     cdef int C = input_array.shape[1]
  * 
- *     # Matriz de salida inicializada a ceros
  *     cdef np.ndarray[np.float32_t, ndim=4] output = np.zeros((B, C, out_h, out_w), dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
- *     # Declaracin esttica de variables iteradoras
+ *     cdef int b, c, i, j, kh, kw
 */
   __pyx_t_3 = NULL;
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
@@ -4576,170 +4601,220 @@ static PyObject *__pyx_pf_9maxpool2d_maxpool_forward_cython(CYTHON_UNUSED PyObje
   __pyx_v_output = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "maxpool2d.pyx":24
+  /* "maxpool2d.pyx":23
  * 
- *     # Bucles en C puro
- *     for b in range(B):             # <<<<<<<<<<<<<<
+ *     # Multiproceso con prange
+ *     for b in prange(B, nogil=True):             # <<<<<<<<<<<<<<
  *         for c in range(C):
  *             for i in range(out_h):
 */
-  __pyx_t_11 = __pyx_v_B;
-  __pyx_t_12 = __pyx_t_11;
-  for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
-    __pyx_v_b = __pyx_t_13;
+  {
+      PyThreadState * _save;
+      _save = PyEval_SaveThread();
+      __Pyx_FastGIL_Remember();
+      /*try:*/ {
+        __pyx_t_11 = __pyx_v_B;
+        {
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_13 = (__pyx_t_11 - 0 + 1 - 1/abs(1)) / 1;
+            if (__pyx_t_13 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel private(__pyx_t_14, __pyx_t_15, __pyx_t_16, __pyx_t_17, __pyx_t_18, __pyx_t_19, __pyx_t_20, __pyx_t_21, __pyx_t_22, __pyx_t_23, __pyx_t_24, __pyx_t_25, __pyx_t_26, __pyx_t_27, __pyx_t_28, __pyx_t_29, __pyx_t_30, __pyx_t_31, __pyx_t_32, __pyx_t_33)
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_b) lastprivate(__pyx_v_b) firstprivate(__pyx_v_c) lastprivate(__pyx_v_c) firstprivate(__pyx_v_current_val) lastprivate(__pyx_v_current_val) firstprivate(__pyx_v_h_start) lastprivate(__pyx_v_h_start) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) firstprivate(__pyx_v_j) lastprivate(__pyx_v_j) firstprivate(__pyx_v_kh) lastprivate(__pyx_v_kh) firstprivate(__pyx_v_kw) lastprivate(__pyx_v_kw) firstprivate(__pyx_v_max_val) lastprivate(__pyx_v_max_val) firstprivate(__pyx_v_w_start) lastprivate(__pyx_v_w_start)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_13; __pyx_t_12++){
+                        {
+                            __pyx_v_b = (int)(0 + 1 * __pyx_t_12);
 
-    /* "maxpool2d.pyx":25
- *     # Bucles en C puro
- *     for b in range(B):
+                            /* "maxpool2d.pyx":24
+ *     # Multiproceso con prange
+ *     for b in prange(B, nogil=True):
  *         for c in range(C):             # <<<<<<<<<<<<<<
  *             for i in range(out_h):
  *                 for j in range(out_w):
 */
-    __pyx_t_14 = __pyx_v_C;
-    __pyx_t_15 = __pyx_t_14;
-    for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
-      __pyx_v_c = __pyx_t_16;
+                            __pyx_t_14 = __pyx_v_C;
+                            __pyx_t_15 = __pyx_t_14;
+                            for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_15; __pyx_t_16+=1) {
+                              __pyx_v_c = __pyx_t_16;
 
-      /* "maxpool2d.pyx":26
- *     for b in range(B):
+                              /* "maxpool2d.pyx":25
+ *     for b in prange(B, nogil=True):
  *         for c in range(C):
  *             for i in range(out_h):             # <<<<<<<<<<<<<<
  *                 for j in range(out_w):
  *                     h_start = i * stride
 */
-      __pyx_t_17 = __pyx_v_out_h;
-      __pyx_t_18 = __pyx_t_17;
-      for (__pyx_t_19 = 0; __pyx_t_19 < __pyx_t_18; __pyx_t_19+=1) {
-        __pyx_v_i = __pyx_t_19;
+                              __pyx_t_17 = __pyx_v_out_h;
+                              __pyx_t_18 = __pyx_t_17;
+                              for (__pyx_t_19 = 0; __pyx_t_19 < __pyx_t_18; __pyx_t_19+=1) {
+                                __pyx_v_i = __pyx_t_19;
 
-        /* "maxpool2d.pyx":27
+                                /* "maxpool2d.pyx":26
  *         for c in range(C):
  *             for i in range(out_h):
  *                 for j in range(out_w):             # <<<<<<<<<<<<<<
  *                     h_start = i * stride
  *                     w_start = j * stride
 */
-        __pyx_t_20 = __pyx_v_out_w;
-        __pyx_t_21 = __pyx_t_20;
-        for (__pyx_t_22 = 0; __pyx_t_22 < __pyx_t_21; __pyx_t_22+=1) {
-          __pyx_v_j = __pyx_t_22;
+                                __pyx_t_20 = __pyx_v_out_w;
+                                __pyx_t_21 = __pyx_t_20;
+                                for (__pyx_t_22 = 0; __pyx_t_22 < __pyx_t_21; __pyx_t_22+=1) {
+                                  __pyx_v_j = __pyx_t_22;
 
-          /* "maxpool2d.pyx":28
+                                  /* "maxpool2d.pyx":27
  *             for i in range(out_h):
  *                 for j in range(out_w):
  *                     h_start = i * stride             # <<<<<<<<<<<<<<
  *                     w_start = j * stride
  * 
 */
-          __pyx_v_h_start = (__pyx_v_i * __pyx_v_stride);
+                                  __pyx_v_h_start = (__pyx_v_i * __pyx_v_stride);
 
-          /* "maxpool2d.pyx":29
+                                  /* "maxpool2d.pyx":28
  *                 for j in range(out_w):
  *                     h_start = i * stride
  *                     w_start = j * stride             # <<<<<<<<<<<<<<
  * 
- *                     # Inicializamos max_val con el primer elemento de la ventana
+ *                     max_val = input_array[b, c, h_start, w_start]
 */
-          __pyx_v_w_start = (__pyx_v_j * __pyx_v_stride);
+                                  __pyx_v_w_start = (__pyx_v_j * __pyx_v_stride);
 
-          /* "maxpool2d.pyx":32
+                                  /* "maxpool2d.pyx":30
+ *                     w_start = j * stride
  * 
- *                     # Inicializamos max_val con el primer elemento de la ventana
  *                     max_val = input_array[b, c, h_start, w_start]             # <<<<<<<<<<<<<<
  * 
- *                     # Buscamos el mximo en la ventana
+ *                     for kh in range(kernel_size):
 */
-          __pyx_t_23 = __pyx_v_b;
-          __pyx_t_24 = __pyx_v_c;
-          __pyx_t_25 = __pyx_v_h_start;
-          __pyx_t_26 = __pyx_v_w_start;
-          __pyx_v_max_val = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_array.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_input_array.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_input_array.diminfo[1].strides, __pyx_t_25, __pyx_pybuffernd_input_array.diminfo[2].strides, __pyx_t_26, __pyx_pybuffernd_input_array.diminfo[3].strides));
+                                  __pyx_t_23 = __pyx_v_b;
+                                  __pyx_t_24 = __pyx_v_c;
+                                  __pyx_t_25 = __pyx_v_h_start;
+                                  __pyx_t_26 = __pyx_v_w_start;
+                                  __pyx_v_max_val = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_array.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_input_array.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_input_array.diminfo[1].strides, __pyx_t_25, __pyx_pybuffernd_input_array.diminfo[2].strides, __pyx_t_26, __pyx_pybuffernd_input_array.diminfo[3].strides));
 
-          /* "maxpool2d.pyx":35
+                                  /* "maxpool2d.pyx":32
+ *                     max_val = input_array[b, c, h_start, w_start]
  * 
- *                     # Buscamos el mximo en la ventana
  *                     for kh in range(kernel_size):             # <<<<<<<<<<<<<<
  *                         for kw in range(kernel_size):
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]
 */
-          __pyx_t_27 = __pyx_v_kernel_size;
-          __pyx_t_28 = __pyx_t_27;
-          for (__pyx_t_29 = 0; __pyx_t_29 < __pyx_t_28; __pyx_t_29+=1) {
-            __pyx_v_kh = __pyx_t_29;
+                                  __pyx_t_27 = __pyx_v_kernel_size;
+                                  __pyx_t_28 = __pyx_t_27;
+                                  for (__pyx_t_29 = 0; __pyx_t_29 < __pyx_t_28; __pyx_t_29+=1) {
+                                    __pyx_v_kh = __pyx_t_29;
 
-            /* "maxpool2d.pyx":36
- *                     # Buscamos el mximo en la ventana
+                                    /* "maxpool2d.pyx":33
+ * 
  *                     for kh in range(kernel_size):
  *                         for kw in range(kernel_size):             # <<<<<<<<<<<<<<
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]
  *                             if current_val > max_val:
 */
-            __pyx_t_30 = __pyx_v_kernel_size;
-            __pyx_t_31 = __pyx_t_30;
-            for (__pyx_t_32 = 0; __pyx_t_32 < __pyx_t_31; __pyx_t_32+=1) {
-              __pyx_v_kw = __pyx_t_32;
+                                    __pyx_t_30 = __pyx_v_kernel_size;
+                                    __pyx_t_31 = __pyx_t_30;
+                                    for (__pyx_t_32 = 0; __pyx_t_32 < __pyx_t_31; __pyx_t_32+=1) {
+                                      __pyx_v_kw = __pyx_t_32;
 
-              /* "maxpool2d.pyx":37
+                                      /* "maxpool2d.pyx":34
  *                     for kh in range(kernel_size):
  *                         for kw in range(kernel_size):
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]             # <<<<<<<<<<<<<<
  *                             if current_val > max_val:
  *                                 max_val = current_val
 */
-              __pyx_t_26 = __pyx_v_b;
-              __pyx_t_25 = __pyx_v_c;
-              __pyx_t_24 = (__pyx_v_h_start + __pyx_v_kh);
-              __pyx_t_23 = (__pyx_v_w_start + __pyx_v_kw);
-              __pyx_v_current_val = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_array.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_input_array.diminfo[0].strides, __pyx_t_25, __pyx_pybuffernd_input_array.diminfo[1].strides, __pyx_t_24, __pyx_pybuffernd_input_array.diminfo[2].strides, __pyx_t_23, __pyx_pybuffernd_input_array.diminfo[3].strides));
+                                      __pyx_t_26 = __pyx_v_b;
+                                      __pyx_t_25 = __pyx_v_c;
+                                      __pyx_t_24 = (__pyx_v_h_start + __pyx_v_kh);
+                                      __pyx_t_23 = (__pyx_v_w_start + __pyx_v_kw);
+                                      __pyx_v_current_val = (*__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_input_array.rcbuffer->pybuffer.buf, __pyx_t_26, __pyx_pybuffernd_input_array.diminfo[0].strides, __pyx_t_25, __pyx_pybuffernd_input_array.diminfo[1].strides, __pyx_t_24, __pyx_pybuffernd_input_array.diminfo[2].strides, __pyx_t_23, __pyx_pybuffernd_input_array.diminfo[3].strides));
 
-              /* "maxpool2d.pyx":38
+                                      /* "maxpool2d.pyx":35
  *                         for kw in range(kernel_size):
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]
  *                             if current_val > max_val:             # <<<<<<<<<<<<<<
  *                                 max_val = current_val
  * 
 */
-              __pyx_t_33 = (__pyx_v_current_val > __pyx_v_max_val);
-              if (__pyx_t_33) {
+                                      __pyx_t_33 = (__pyx_v_current_val > __pyx_v_max_val);
+                                      if (__pyx_t_33) {
 
-                /* "maxpool2d.pyx":39
+                                        /* "maxpool2d.pyx":36
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]
  *                             if current_val > max_val:
  *                                 max_val = current_val             # <<<<<<<<<<<<<<
  * 
  *                     output[b, c, i, j] = max_val
 */
-                __pyx_v_max_val = __pyx_v_current_val;
+                                        __pyx_v_max_val = __pyx_v_current_val;
 
-                /* "maxpool2d.pyx":38
+                                        /* "maxpool2d.pyx":35
  *                         for kw in range(kernel_size):
  *                             current_val = input_array[b, c, h_start + kh, w_start + kw]
  *                             if current_val > max_val:             # <<<<<<<<<<<<<<
  *                                 max_val = current_val
  * 
 */
-              }
-            }
-          }
+                                      }
+                                    }
+                                  }
 
-          /* "maxpool2d.pyx":41
+                                  /* "maxpool2d.pyx":38
  *                                 max_val = current_val
  * 
  *                     output[b, c, i, j] = max_val             # <<<<<<<<<<<<<<
  * 
  *     return output
 */
-          __pyx_t_23 = __pyx_v_b;
-          __pyx_t_24 = __pyx_v_c;
-          __pyx_t_25 = __pyx_v_i;
-          __pyx_t_26 = __pyx_v_j;
-          *__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_output.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_output.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_output.diminfo[1].strides, __pyx_t_25, __pyx_pybuffernd_output.diminfo[2].strides, __pyx_t_26, __pyx_pybuffernd_output.diminfo[3].strides) = __pyx_v_max_val;
+                                  __pyx_t_23 = __pyx_v_b;
+                                  __pyx_t_24 = __pyx_v_c;
+                                  __pyx_t_25 = __pyx_v_i;
+                                  __pyx_t_26 = __pyx_v_j;
+                                  *__Pyx_BufPtrStrided4d(__pyx_t_5numpy_float32_t *, __pyx_pybuffernd_output.rcbuffer->pybuffer.buf, __pyx_t_23, __pyx_pybuffernd_output.diminfo[0].strides, __pyx_t_24, __pyx_pybuffernd_output.diminfo[1].strides, __pyx_t_25, __pyx_pybuffernd_output.diminfo[2].strides, __pyx_t_26, __pyx_pybuffernd_output.diminfo[3].strides) = __pyx_v_max_val;
+                                }
+                              }
+                            }
+                        }
+                    }
+                }
+            }
         }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
       }
-    }
+
+      /* "maxpool2d.pyx":23
+ * 
+ *     # Multiproceso con prange
+ *     for b in prange(B, nogil=True):             # <<<<<<<<<<<<<<
+ *         for c in range(C):
+ *             for i in range(out_h):
+*/
+      /*finally:*/ {
+        /*normal exit:*/{
+          __Pyx_FastGIL_Forget();
+          PyEval_RestoreThread(_save);
+          goto __pyx_L5;
+        }
+        __pyx_L5:;
+      }
   }
 
-  /* "maxpool2d.pyx":43
+  /* "maxpool2d.pyx":40
  *                     output[b, c, i, j] = max_val
  * 
  *     return output             # <<<<<<<<<<<<<<
@@ -4750,8 +4825,8 @@ static PyObject *__pyx_pf_9maxpool2d_maxpool_forward_cython(CYTHON_UNUSED PyObje
   __pyx_r = ((PyObject *)__pyx_v_output);
   goto __pyx_L0;
 
-  /* "maxpool2d.pyx":6
- * cimport cython
+  /* "maxpool2d.pyx":7
+ * from cython.parallel cimport prange
  * 
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
@@ -5306,19 +5381,19 @@ __Pyx_RefNannySetupContext("PyInit_maxpool2d", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_2) < (0)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "maxpool2d.pyx":6
- * cimport cython
+  /* "maxpool2d.pyx":7
+ * from cython.parallel cimport prange
  * 
  * @cython.boundscheck(False)             # <<<<<<<<<<<<<<
  * @cython.wraparound(False)
  * @cython.cdivision(True)
 */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9maxpool2d_1maxpool_forward_cython, 0, __pyx_mstate_global->__pyx_n_u_maxpool_forward_cython, NULL, __pyx_mstate_global->__pyx_n_u_maxpool2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9maxpool2d_1maxpool_forward_cython, 0, __pyx_mstate_global->__pyx_n_u_maxpool_forward_cython, NULL, __pyx_mstate_global->__pyx_n_u_maxpool2d, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_2);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_maxpool_forward_cython, __pyx_t_2) < (0)) __PYX_ERR(0, 6, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_maxpool_forward_cython, __pyx_t_2) < (0)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "maxpool2d.pyx":1
@@ -5391,25 +5466,25 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 8; } index[] = {{1},{179},{8},{13},{38},{33},{1},{1},{20},{18},{1},{1},{18},{11},{5},{7},{8},{7},{1},{11},{13},{5},{1},{11},{2},{2},{8},{7},{9},{22},{10},{8},{2},{5},{5},{5},{6},{3},{12},{12},{10},{6},{8},{6},{7},{5},{218}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (674 bytes) */
-const char* const cstring = "BZh91AY&SY\003B\267b\000\000E\177\377\377l~}\352\333<\300\277a\177X\277\377\377\364@@@@@@@@@@@@@\000@\000@\002\005 \022\032\200\246\324jx\2234\206&CCC@\311\240\r\000h\310d\3651\243P\301\246H524)\206@\010\312\236\223C\321\000\000\000z\200\000\000\001\241\247\25084h\3204\032\003& 242\000\003M2\000\000\030 \001\301\243F\201\240\320\0311\001\221\241\220\000\032i\220\000\000\301\000\027]D\2541~b\031a\20611\344\316G\323'3iD\243\033E\r\010\024\321\231XIh2\312'N@8\236p\212\026\223\205\352\217s\375\341\251y\365\005\261\304;\250J\0066X9\242\022\"\362[\022\3114\245.\016]\200\256OD\363\320)8\226\251\204 z\377\002m\336\025\256\357\353\325\307\323\335\235\354\361am\365\326\364\202\242|\272\366Nq%\274\3429\224w\030b\342\222\222\273}p\274\006%\262\211\343\347\372\r\340\207\312\"\212;{Q\202\0238\344:LD\360\306<a\021\223\233\203\025> \374\002\245\363.F6*\265\225\246\206\224\200\314Z\222#\254\223\001cow\014\366\010R\202\253\277fF1\300XO\022\215\366f\341\310\212\323G\002y,\210m\367r\260nWL\035\202\247\215\251\276\321JjvKv\303d\352\202\036\214\356\210\315\231\270\261[\332-\336\300R\254\204\222\031\0019\003*\3774\205\344# Z\334\345\2122\301w=\320efM\301w\331b\226\202\021\2341\214\034\022D#I\226GDQLhj\233\264\222-\001\221?[\337\270\367TV\020]\356\013\227r\333\210\006O\246X\252\320\216\002\300\010Y\030bT\207\260q$\225\024\330\2520\0133U\265s\265g\265\305\001t\005\261cCB\006\213\314\310\211\314LL,\260X\315\236\002\211\024\345\204\314Al\220\214\246\253<\260\r\254\326\036\302yE\3232P,\024NR\204s\032\003\003\245\010\355\rGK\261\341\333o\252k\351V0\312`\010\240\252\266\241C+\230\211V\0252\n\247Sh\323%&\226C)\230\253V\375\272\353\3648\346g\254-bU\350\253:\241|XV\001f\353\332\005\2445{\205\360Z\014\013/~\323\245+\014\302\347\362\303\003\231\021\005\026\341\216\225e\205\332\320@.\334\2710K)f\303J\031X\243\214\331\376\377\213\271\"\234(H\001\241[\261\000";
-    PyObject *data = __Pyx_DecompressString(cstring, 674, 2);
+    const struct { const unsigned int length: 8; } index[] = {{1},{179},{8},{13},{38},{33},{1},{1},{20},{18},{1},{1},{18},{11},{5},{7},{8},{7},{1},{11},{13},{5},{1},{11},{2},{2},{8},{7},{9},{22},{10},{8},{2},{5},{5},{5},{6},{3},{12},{12},{10},{6},{8},{6},{7},{5},{208}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (676 bytes) */
+const char* const cstring = "BZh91AY&SY{:\3128\000\000A\177\377\377m~]\352\333<\300\277a\177X\277\377\377\364@@@@@@@@@@@@@\000@\000@\001\345#\205\203T\301\t\224\360\246h\232z\232h\320\014\201\223@4\000\032\032i\350\232zj3Si<Pj\t\246\204\315\t\203S\024\321\246\215\000\000\0004\000\000\000\r\r4\034\0324h\032\r\001\223\020\031\032\031\000\001\246\231\000\000\014\020\000jhhSj6\224\365<\211\352h\000\320\000\000\000\000\000\000\000\002\313\364\010~\341\021I!&d\210\346\312\334\247p\245h\354\010\334d\254\005\001(Qi\244R\006\005\024\314\225K\207\305\206\276\036'\261W\371\211P\244)\233\001\320q\013,\030\251\244\232\363\205\024\235!\010\375\231\001'\243\331\327_\020\031E\275;\301E\267\360\035\265bD\331\337\267\217_uJm\034K\222h\232i\n#\346\313\341\3459\304\347%\r\225S=\231}C\234\237O\254\026\214\251] \246.b\216\250>R\t\203c_Y`th\231# \251#uc,\023d\305\334\206\276\360\313\030\260\371WI\215;-D\323B\204\320\314\313\023[Q\005\000\302\245\245\326\214*\024\n\262\375\230\246\024,FV\205Au\206\354\270\202W\202\371\347#|34\271Kf\231]\tY\036~D]dB\2144\322t\3363\017\021H4\365\222\370m\266h`\227'\222\342\304$\2448\341\212\003\305\006,_0\203\322\037p\034\351I\304\024\254\362\264\2251\021\212\312\3174q\220\350\n}\340\302\326.\210\314\222t\324I\222\006\205\2601\014\2718\224a$N\337s\2549\262\224\304\025Y\241O\261=R\001u.\037\004N\r\240L\001\t\241\035r\262\016X\276\211\346\206A\020\214))D\362\344\337\321;J1V1<\026\300\300a\202\262RDMY\327HQZ(R\2421$Hj\201\322 \245\304I*r\320\370\303,\322\240\345\223\212\r\246\267\2010\222\241<\033V\300\026\032\360\204\316\312\023R\363A6\032\252\354\320\222\205R\350\005*\211V\375P1\023\245)#,.\r\003\265\033\023%Y\245\016\312\035V\357\227\177\013\317xZ%\273\363\274\325\376\301\000|[W\010\364|\253\301XR\352\017\202j0\034\203\363~\254\374n\222^\334q\320\310x\340rF\320\254R`\265\034b\375\353\316\310\351IH\325d\237\240\241\023\007\227\374]\311\024\341BA\354\353(\340";
+    PyObject *data = __Pyx_DecompressString(cstring, 676, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (592 bytes) */
-const char* const cstring = "x\332eQ\277O\333@\024\206\226\240\2422\220\002R\177\240rQUQ\201\032)\001\251\335\252B\203\332\005\361\263Bt8]\316\317\365\021\373\316\271;\223\030u\350\230\321\243G\217\0363f\314\3301\243G\376\004\376\204>\003EH\265t\357>\235\276\357}\357\363\373\264\247,\020\3531Kvb\353)I\204!\016\370\242\r\232Y\360cb\254\026\334\202.I\222\354\267\366\337o}\334\"L:D\3039pk\210\211\332\334g\306\200!\312%\355H\370VHb\343\020L\235|sI\254\"\"\001\034b\025\t\221\367P`=\220\304\200-\001YcR*\313\254P\222\242\\\310\237k\304\021\032M\304\005\224\352]\346\033\2503\307\241\310\203\200\365C\245\374\246S\017\343\276\214\2020\256s\245\241\036D8\000\323\232\305\304e\302\2775\026A\250\264}\300\212\002f\275\377\010\333;\224\356\307}<_05\335\203\276=\004\227\231Xr\241J\241\2120\034\2306\347>\336T\340\244\232qh3\336\341\221\326 -\275`\276S\246w}\305\354f\223R7\222\234R\217\032\313\264\025B\206\221\2457\363Qa\350}O\201\211\314y\007\264\004\237\032q\t\035\257\323\2434`\350\201\265_\366\275\217|\007\250\253t\217i\207\362\233\345!O9\221\017\024?\311\002\274ex\023\031\035\250W\226\036\026\264\017UHi7b\376-\213R\\\301\235\002\221\203\211\361\037\226\233w\360\305\202\261\264t\217\300\364nC\\\202V\346\367\364\365\374T\345Y\362*\335\315jY\243\230\251\376\203\327\263S\225\255as\370}\324\034\035\215\037\217?\374y79<\235\234\236M\316~\\/LU\346\006\225\301IRK\032\305\223\371A+YNX\322-\346\027\222Jr\222\326\322F\261\260\224\264\322\345\224\245\335b\351u\332\316\036e\265{\200\275\227W\323N^\315\337\344G\303\271Q\265|x\221\316\246\2205\262\317\305\363\025\034\341m\326\315\247\213\225\365|cx0\344\243\305\321\327\361\366\330)\2078\236\034\237\024+\253\351\257\274\231\037\024d=\257]-\275D\317\315\224g\213Y+\257^\315<\0354\376\002\306\2535,";
-    PyObject *data = __Pyx_DecompressString(cstring, 592, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (583 bytes) */
+const char* const cstring = "x\332eQ\277O\333@\024\206\026\252\242\242\212\224 \241\026\265\207\252\212\n\324HI\220\332\255\002\032\324.\210\237\025\242\303\351r~\256\217\330w\316\335\231\304\250CGF\217\036=z\314\2301c\307\214\036\363'\360'\364\031(B\252\245{\367\311\372\276\367\275\357\336\347=e\201X\217Y\262\023[OI\"\014q\300\027m\320\314\202\037\023c\265\340\026tI\222d\277\265\377a\363\323&a\322!\032\316\201[CL\324\346>3\006\014Q.iG\302\267B\022\033\207`j\344\233Kb\025\021\t\340\020\253H\210\274\207\002\353\201$\006l\t\310\032\223RYf\205\222\024\345B\376\\#\216\320h\".\240T\3572\337@\2159\016E\036\004\254\037*\3457\234Z\030\367e\024\204q\215+\r\265 \302\001\230\326,&.\023\376\255\261\010B\245\355\003V\0240\353\375G\330\336\241t?\356\343\371\202\251\351\036\364\355!\270\314\304\222\013U\nU\204\341\300\2649\367\361\246\002'\325\214C\233\361\016\217\264\006i\351\005\363\2352\275\353+f\233\rJ\335HrJ=j,\323V\010\031F\226\336\314G\205\241\367=\005&2\347\035\320\022|j\304%t\274N\217\322\200\241\007\326~\331\367>\362\035\240\256\322=\246\035\312o\226\207<\345D>P\374$\013\360\226\341Mdt\240^YzX\320>T!\245\335\210\371\267,Jq\005w\nD\016&\3067,7\357\340\037\013\306\322\322=\002\323\273\rq\tZ\231\337\323\327\363S\263/\222W\351n\266\232\325\213\231\312?8\231i\016\032\203\357\303\306\360h\364x\364\361\317\373\361\341\351\370\364l|\366\343\372\371\324\\5\251'[\305\323\371\253V\262\224\260\244[\314/$\263\311I\272\232\326\213\205j\322J\227R\226v\213\352\353\264\235=\312V\357\301\004A'\257\344o\363\243\301\334\2602\251.\247OR\310\352\331V\261\274\202\306\357\262n>]\254\254\347\033\203\203\001\037.\016\277\216\266GNi~<>>)V\336\244\277\362F~P\220\365\034{\275D\277f\312\263\305\254\225W&3\317\256\352\177\001\364I3\247";
+    PyObject *data = __Pyx_DecompressString(cstring, 583, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (790 bytes) */
-const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_notemaxpool2d.pyxnumpy.core.multiarray failed to importnumpy.core.umath failed to importBC__Pyx_PyDict_NextRefasyncio.coroutinesbccline_in_tracebackcurrent_valdtypefloat32__func__h_startiinput_array_is_coroutineitemsjkernel_sizekhkw__main__max_valmaxpool2dmaxpool_forward_cython__module____name__npnumpyout_hout_woutputpop__qualname____set_name__setdefaultstride__test__valuesw_startzeros\200\001\360\014\000\005\022\220\033\230F\240!\2401\330\004\021\220\033\230F\240!\2401\360\006\000\0054\2602\260V\2702\270S\300\003\3007\310(\320RX\320XZ\320Z[\360\020\000\005\t\210\005\210U\220!\2201\330\010\014\210E\220\025\220a\220q\330\014\020\220\005\220U\230!\2301\330\020\024\220E\230\025\230a\230q\330\024\036\230b\240\002\240!\330\024\036\230b\240\002\240!\360\006\000\025\037\230k\250\021\250#\250S\260\t\270\021\360\006\000\025\031\230\006\230e\2401\240A\330\030\034\230F\240%\240q\250\001\330\034*\250+\260Q\260c\270\023\270H\300B\300d\310(\320RT\320TU\330\034\037\230|\2502\250Q\330 *\250!\340\024\032\230!\2303\230c\240\023\240E\250\021\340\004\013\2101";
+    #else /* compression: none (780 bytes) */
+const char* const bytes = "?Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False.add_notemaxpool2d.pyxnumpy.core.multiarray failed to importnumpy.core.umath failed to importBC__Pyx_PyDict_NextRefasyncio.coroutinesbccline_in_tracebackcurrent_valdtypefloat32__func__h_startiinput_array_is_coroutineitemsjkernel_sizekhkw__main__max_valmaxpool2dmaxpool_forward_cython__module____name__npnumpyout_hout_woutputpop__qualname____set_name__setdefaultstride__test__valuesw_startzeros\200\001\360\014\000\005\022\220\033\230F\240!\2401\330\004\021\220\033\230F\240!\2401\340\0043\2602\260V\2702\270S\300\003\3007\310(\320RX\320XZ\320Z[\360\016\000\t\024\2201\220A\330\010\014\210E\220\025\220a\220q\330\014\020\220\005\220U\230!\2301\330\020\024\220E\230\025\230a\230q\330\024\036\230b\240\002\240!\330\024\036\230b\240\002\240!\340\024\036\230k\250\021\250#\250S\260\t\270\021\340\024\030\230\006\230e\2401\240A\330\030\034\230F\240%\240q\250\001\330\034*\250+\260Q\260c\270\023\270H\300B\300d\310(\320RT\320TU\330\034\037\230|\2502\250Q\330 *\250!\340\024\032\230!\2303\230c\240\023\240E\250\021\340\004\013\2101";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
@@ -5490,9 +5565,9 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 6};
+    const __Pyx_PyCode_New_function_description descr = {5, 0, 0, 18, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 7};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_input_array, __pyx_mstate->__pyx_n_u_kernel_size, __pyx_mstate->__pyx_n_u_stride, __pyx_mstate->__pyx_n_u_out_h, __pyx_mstate->__pyx_n_u_out_w, __pyx_mstate->__pyx_n_u_B, __pyx_mstate->__pyx_n_u_C, __pyx_mstate->__pyx_n_u_output, __pyx_mstate->__pyx_n_u_b, __pyx_mstate->__pyx_n_u_c, __pyx_mstate->__pyx_n_u_i, __pyx_mstate->__pyx_n_u_j, __pyx_mstate->__pyx_n_u_kh, __pyx_mstate->__pyx_n_u_kw, __pyx_mstate->__pyx_n_u_h_start, __pyx_mstate->__pyx_n_u_w_start, __pyx_mstate->__pyx_n_u_max_val, __pyx_mstate->__pyx_n_u_current_val};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_maxpool2d_pyx, __pyx_mstate->__pyx_n_u_maxpool_forward_cython, __pyx_mstate->__pyx_kp_b_iso88591_F_1_F_1_42V2S_7_RXXZZ_U_1_E_aq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_maxpool2d_pyx, __pyx_mstate->__pyx_n_u_maxpool_forward_cython, __pyx_mstate->__pyx_kp_b_iso88591_F_1_F_1_32V2S_7_RXXZZ_1A_E_aq_U, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;
